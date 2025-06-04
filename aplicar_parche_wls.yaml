@@ -1,6 +1,6 @@
 ---
 - name: Ejecutar parcheo WLS
-  hosts: 193.110.3.0
+  hosts: 192.168.100.12
   become: true
   become_user: oracle
 
@@ -35,8 +35,8 @@
 
     - name: Ejecutar el script de parcheo y guardar log
       shell: |
-        /home/weblogic/aplicar_parche_wls.sh > /home/weblogic/aplicacion_parche.log 2>&1
-        cat /home/weblogic/aplicacion_parche.log  # Esto imprime el log en consola de Tower
+        /home/oracle/aplicar_parche_wls.sh > /home/oracle/aplicacion_parche.log 2>&1
+        cat /home/oracle/aplicacion_parche.log  # Esto imprime el log en consola de Tower
       args:
         executable: /bin/bash
       register: resultado_script
