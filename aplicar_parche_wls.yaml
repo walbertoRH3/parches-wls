@@ -8,17 +8,17 @@
     - name: Copiar script de parcheo al home del usuario
       copy:
         src: aplicar_parche_wls.sh
-        dest: /home/weblogic/
-        owner: weblogic
-        group: weblogic
+        dest: /home/oracle/
+        owner: oracle
+        group: oracle
         mode: '0755'
 
     - name: Copiar carpeta de parches al home del usuario
       copy:
         src: parches
-        dest: /home/weblogic/
-        owner: weblogic
-        group: weblogic
+        dest: /home/oracle/
+        owner: oracle
+        group: oracle
         mode: '0755'
         directory_mode: '0755'
       notify: Verificar contenido copiado
@@ -26,9 +26,9 @@
     - name: Copiar script py al home del usuario
       copy:
         src: status_servers.py
-        dest: /home/weblogic/
-        owner: weblogic
-        group: weblogic
+        dest: /home/oracle/
+        owner: oracle
+        group: oracle
         mode: '0755'
         directory_mode: '0755'
       notify: Verificar contenido copiado
@@ -48,7 +48,7 @@
 
   handlers:
     - name: Verificar contenido copiado
-      shell: ls -l /home/weblogic/parches/
+      shell: ls -l /home/oracle/parches/
       register: ls_output
 
     - name: Mostrar listado de parches copiados
