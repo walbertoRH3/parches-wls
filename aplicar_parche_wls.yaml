@@ -1,0 +1,57 @@
+---
+- name: Ejecutar parcheo WLS
+  hosts: 193.110.3.0
+  become: true
+  become_user: weblogic
+
+  tasks:
+    - name: Copiar script de parcheo al home del usuario
+      copy:
+        src: aplicar_parche_wls.sh
+        dest: /home/weblogic/
+        owner: weblogic
+        group: weblogic
+        mode: '0755'
+
+    - name: Copiar carpeta de parches al home del usuario
+      copy:
+        src: parches
+        dest: /home/weblogic/
+        owner: weblogic
+        group: weblogic
+        mode: '0755'
+        directory_mode: '0755'
+      notify: Verificar contenido copiado
+
+    - name: Copiar script py al home del usuario
+      copy:
+        src: status_servers.py
+        dest: /home/weblogic/
+        owner: weblogic
+        group: weblogic
+        mode: '0755'
+        directory_mode: '0755'
+      notify: Verificar contenido copiado
+
+    - name: Ejecutar el script de parcheo y guardar log
+      shell: |
+        /home/weblogic/aplicar_parche_wls.sh > /home/weblogic/aplicacion_parche.log 2>&1
+        cat /home/weblogic/aplicacion_parche.log  # Esto imprime el log en consola de Tower
+      args:
+        executable: /bin/bash
+      register: resultado_script
+      ignore_errors: true
+
+    - name: Mostrar salida completa del log
+      debug:
+        var: resultado_script.stdout_lines
+
+  handlers:
+    - name: Verificar contenido copiado
+      shell: ls -l /home/weblogic/parches/
+      register: ls_output
+
+    - name: Mostrar listado de parches copiados
+      debug:
+        var: ls_output.stdout_lines
+
