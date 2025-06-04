@@ -2,7 +2,7 @@
 - name: Ejecutar parcheo WLS
   hosts: 193.110.3.0
   become: true
-  become_user: weblogic
+  become_user: oracle
 
   tasks:
     - name: Copiar script de parcheo al home del usuario
