@@ -1,0 +1,11 @@
+tasks:
+  - name: Test de conectividad
+    ping:
+    
+  - name: Verificar usuario actual
+    shell: whoami
+    register: current_user
+    
+  - name: Mostrar usuario actual
+    debug:
+      var: current_user.stdout
